@@ -38,8 +38,4 @@ public class DefaultConfig extends Properties {
 
         store(new FileOutputStream(configFile), null);
     }
-
-    public static void main(String[] args) {
-        DefaultConfig config = new DefaultConfig("", "");
-    }
 }
