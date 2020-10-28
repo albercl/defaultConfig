@@ -15,26 +15,27 @@ public class DefaultConfig extends Properties {
      * write the config file, cannot read the config file or an error occurred with the streams
      */
     public DefaultConfig(InputStream defaultStream, String config) throws IOException {
-        if (defaultStream == null) {
+        if (defaultStream != null) {
+            File configFile = new File(config);
+
+            load(defaultStream);
+
+            if (!configFile.exists())
+                if (!configFile.createNewFile())
+                    throw new IOException("Cannot create '" + config + "' file");
+
+            if (!configFile.canWrite())
+                throw new IOException("Cannot write '" + config + "' file");
+
+            if (!configFile.canRead())
+                throw new IOException("Cannot read '" + config + "' file");
+
+            load(new FileInputStream(configFile));
+
+            store(new FileOutputStream(configFile), null);
+        } else {
             throw new NullPointerException("Default stream mustn't be null");
         }
 
-        File configFile = new File(config);
-
-        load(defaultStream);
-
-        if(!configFile.exists())
-            if(!configFile.createNewFile())
-                throw new IOException("Cannot create '" + config + "' file");
-
-        if(!configFile.canWrite())
-            throw new IOException("Cannot write '" + config + "' file");
-
-        if(!configFile.canRead())
-            throw new IOException("Cannot read '" + config + "' file");
-
-        load(new FileInputStream(configFile));
-
-        store(new FileOutputStream(configFile), null);
     }
 }
