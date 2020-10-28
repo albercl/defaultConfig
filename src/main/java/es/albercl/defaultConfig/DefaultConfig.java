@@ -15,9 +15,9 @@ public class DefaultConfig extends Properties {
      * write the config file, cannot read the config file or an error occurred with the streams
      */
     public DefaultConfig(String defaultConfig, String config) throws IOException {
-        InputStream defaultStream = getClass().getResourceAsStream(defaultConfig);
+        InputStream defaultStream = getClass().getClassLoader().getResourceAsStream(defaultConfig);
         if (defaultStream == null) {
-            throw new IOException("No default file " + defaultConfig + " was found");
+            throw new IOException("No default file '" + defaultConfig + "' was found");
         }
 
         File configFile = new File(config);
@@ -26,7 +26,7 @@ public class DefaultConfig extends Properties {
 
         if(!configFile.exists())
             if(!configFile.createNewFile())
-                throw new IOException("Cannot create ' + config + ' file");
+                throw new IOException("Cannot create '" + config + "' file");
 
         if(!configFile.canWrite())
             throw new IOException("Cannot write '" + config + "' file");
