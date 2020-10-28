@@ -9,15 +9,14 @@ public class DefaultConfig extends Properties {
      *  and creating a new properties file if it doesn't exists. If a file is found but it is incomplete,
      *  the class will rewrite it on the construction of the object. The object doesn't use more memory than
      *  a normal Properties object.
-     * @param defaultConfig file path in the resources of the project
+     * @param defaultStream input stream of the defaultConfig that is in the classpath
      * @param config file path out of the resources
      * @throws IOException if no default config was found, cannot create a new config file, cannot
      * write the config file, cannot read the config file or an error occurred with the streams
      */
-    public DefaultConfig(String defaultConfig, String config) throws IOException {
-        InputStream defaultStream = getClass().getClassLoader().getResourceAsStream(defaultConfig);
+    public DefaultConfig(InputStream defaultStream, String config) throws IOException {
         if (defaultStream == null) {
-            throw new IOException("No default file '" + defaultConfig + "' was found");
+            throw new NullPointerException("Default stream mustn't be null");
         }
 
         File configFile = new File(config);
